@@ -1,0 +1,634 @@
+﻿NOTE: PROCEDURE PRINTTO used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.00 seconds
+      
+
+4          OPTIONS LOCALE=en_US DFLANG=LOCALE VALIDVARNAME=ANY VALIDMEMNAME=EXTEND;
+5          
+6          OPTIONS NOSYNTAXCHECK;
+7          DATA _NULL_;
+8          RC=DLGCDIR('C:/GitDemos/WTW_Demo_Repo/SAS_Programming');
+9          RUN;
+
+NOTE: The current working directory is now "C:\GitDemos\WTW_Demo_Repo\SAS_Programming".
+NOTE: DATA statement used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.00 seconds
+      
+
+10         OPTIONS NOSYNTAXCHECK;
+11         
+12         FILENAME _HTMLOUT
+12       ! %NRSTR("C:/GitDemos/WTW_Demo_Repo/SAS_Programming/Intro_SAS_Programming.html");
+13         
+14         FILENAME _GSFNAME TEMP;
+15         DATA _NULL_;
+16         CALL SYMPUT("GRAPHINIT","");
+17         CALL SYMPUT("GRAPHTERM","");
+18         RC=TSLVL('SASXGOPT','N');
+19         _ERROR_=0;
+20         IF (RC^=' ') THEN DO;
+21         CALL SYMPUT("GRAPHINIT","GOPTIONS RESET=ALL GSFNAME=_GSFNAME;");
+22         CALL SYMPUT("GRAPHTERM","GOPTIONS NOACCESSIBLE;");
+23         END;
+24         RUN;
+
+NOTE: DATA statement used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.00 seconds
+      
+
+25         DATA _NULL_;
+26         RC=SYSPROD("PRODNUM002");
+27         IF (RC^=1) THEN DO;
+28         CALL SYMPUT("GRAPHINIT","");
+29         CALL SYMPUT("GRAPHTERM","");
+30         END;
+31         RUN;
+2                                         The SAS System         Monday, March 20, 2023 12:17:09 PM
+
+
+NOTE: DATA statement used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.00 seconds
+      
+
+32         %LET SYSCC=0;
+33         %LET _CLIENTAPP='SAS Studio';
+34         %LET _CLIENTAPPABREV=Studio;
+35         %LET _CLIENTAPPVERSION=3.81;
+36         %LET _CLIENTVERSION=3.81;
+37         %LET _CLIENTMODE=background;
+38         %LET _SASSERVERNAME=%BQUOTE(localhost);
+39         %LET _SASHOSTNAME=%BQUOTE(l10j520);
+40         %LET _SASPROGRAMFILEHOST=%BQUOTE(l10j520);
+41         %LET _CLIENTUSERID=%BQUOTE(saswtw);
+42         %LET _CLIENTUSERNAME=%BQUOTE(T Winand);
+43         %LET CLIENTMACHINE=%BQUOTE(L10J520);
+44         %LET _CLIENTMACHINE=%BQUOTE(L10J520);
+45         %let SASWORKLOCATION="%sysfunc(getoption(work))/";
+46         FILENAME _CWD '.';
+47         DATA _NULL_;
+48         CALL SYMPUT('_SASWORKINGDIR',PATHNAME('_CWD'));
+49         RUN;
+
+NOTE: DATA statement used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.00 seconds
+      
+
+50         FILENAME _CWD;
+NOTE: Fileref _CWD has been deassigned.
+51         
+52         %LET _SASPROGRAMFILE =
+52       ! %NRQUOTE(%NRSTR(C:/GitDemos/WTW_Demo_Repo/SAS_Programming/Intro_SAS_Programming.sas));
+53         %LET _EXECENV=SASStudio Background;
+54         %LET _SASWS_ = %BQUOTE(C:/Users/saswtw);
+55         %LET _SASWSTEMP_=%BQUOTE();
+56         ODS LISTING CLOSE;
+57         ODS AUTONAVIGATE OFF;
+58         ODS GRAPHICS ON;
+59         ODS HTML5 (ID=WEB) DEVICE=PNG GPATH="&_SASWSTEMP_" ENCODING=utf8 FILE=_HTMLOUT
+59       ! (TITLE='Results: Intro_SAS_Programming.sas') STYLE=Htmlblue OPTIONS(BITMAP_MODE='INLINE'
+59       !  OUTLINE='ON' SVG_MODE='INLINE' CSS_PREFIX='.ods_e7c985e1-3250-4210-b78b-c5fdae6bacd7'
+59       ! BODY_ID='div_e7c985e1-3250-4210-b78b-c5fdae6bacd7' );
+NOTE: Writing HTML5(WEB) Body file: _HTMLOUT
+60         &GRAPHINIT;
+61         /*****************************************************/
+62         /* This program introduces basic SAS programming     */
+63         /* concepts to programmers new to SAS                */
+64         /*****************************************************/
+65         
+66         /* SET SAS LIBREF */
+3                                         The SAS System         Monday, March 20, 2023 12:17:09 PM
+
+67         /* libname mydata "/greenmonthly-export/ssemonthly/homes/T.Winand@sas.com/Git_Repo/data"
+67       ! ; */
+68         libname mydata "C:/GitDemos/WTW_Demo_LocalRepo/data";
+NOTE: Library MYDATA does not exist.
+69         
+70         
+71         /* libname mydblib hadoop  */
+72         /*                   user=myusr1  */
+73         /*                   password=mypwd1  */
+74         /*                   server=hadoopsvr  */
+75         /*                   schema=hrdept;  */
+76         
+77         
+78         
+79         /* THIS IS AN EXAMPLE OF A VERY SIMPLE DATA STEP */
+80         data work.class;
+81           set sashelp.class;
+82         run;
+
+NOTE: There were 19 observations read from the data set SASHELP.CLASS.
+NOTE: The data set WORK.CLASS has 19 observations and 5 variables.
+NOTE: DATA statement used (Total process time):
+      real time           0.01 seconds
+      cpu time            0.01 seconds
+      
+
+83         
+84         
+85         /* THIS IS AN EXAMPLE OF A SIMPLE PROCEDURE */
+86         proc print data=work.class;
+87         run;
+
+
+Output Added:
+-------------
+Name:       Print
+Label:      Data Set WORK.CLASS
+Data Name:  ProcPrintTable
+Path:       Print.Print
+-------------
+NOTE: There were 19 observations read from the data set WORK.CLASS.
+NOTE: PROCEDURE PRINT used (Total process time):
+      real time           0.03 seconds
+      cpu time            0.01 seconds
+      
+
+88         
+89         
+90         /* THIS IS AN EXAMPLE OF A SIMPLE PROCEDURE WITH CHANGES */
+91         proc print data=class (obs=10);
+92           var name sex age weight;
+93         run;
+
+4                                         The SAS System         Monday, March 20, 2023 12:17:09 PM
+
+
+Output Added:
+-------------
+Name:       Print
+Label:      Data Set WORK.CLASS
+Data Name:  ProcPrintTable
+Path:       Print.Print
+-------------
+NOTE: There were 10 observations read from the data set WORK.CLASS.
+NOTE: PROCEDURE PRINT used (Total process time):
+      real time           0.01 seconds
+      cpu time            0.01 seconds
+      
+
+94         
+95         
+96         /* DATA STEP CREATING A CALCULATED VARIABLE */
+97         data class;
+98           set sashelp.class;
+99           bmi = (weight / (height*height)) * 703;
+100        run;
+
+NOTE: There were 19 observations read from the data set SASHELP.CLASS.
+NOTE: The data set WORK.CLASS has 19 observations and 6 variables.
+NOTE: DATA statement used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.00 seconds
+      
+
+101        
+102        
+103        /* DATA STEP CREATING MULTIPLE OUTPUT DATASETS & FORMATTING BMI */
+104        data class_m_bmi class_f_bmi;
+105        	set sashelp.class;
+106        	format bmi comma6.3;
+107        	bmi=(weight / (height*height)) * 703;
+108        
+109        	if sex='M' then
+110        		output class_m_bmi;
+111        	else if sex='F' then
+112        		output class_f_bmi;
+113        run;
+
+NOTE: There were 19 observations read from the data set SASHELP.CLASS.
+NOTE: The data set WORK.CLASS_M_BMI has 10 observations and 6 variables.
+NOTE: The data set WORK.CLASS_F_BMI has 9 observations and 6 variables.
+NOTE: DATA statement used (Total process time):
+      real time           0.01 seconds
+      cpu time            0.00 seconds
+      
+
+114        
+115        /* PROC PRINT TO EXCEL WITH A FILTER */
+5                                         The SAS System         Monday, March 20, 2023 12:17:09 PM
+
+116        /* %let datadir = C:/GitDemos/WTW_Demo_LocalRepo/data; */
+117        /* ods excel file="&datadir/class_m_highBmi.xlsx"; */
+118        /* title "Listing of Class Males with High BMI"; */
+119        /* proc print data=class_m_bmi; */
+120        /*   where bmi > 18; */
+121        /* run; */
+122        /* ods excel close; */
+123        /* title""; */
+124        
+125        
+126        /* USE DATASTEP MERGE STATEMENT TO MERGE TWO TABLES (INNER JOIN) */
+127        proc sort data=sashelp.class out=class_sorted;
+128          by name;
+129        run;
+
+NOTE: There were 19 observations read from the data set SASHELP.CLASS.
+NOTE: The data set WORK.CLASS_SORTED has 19 observations and 5 variables.
+NOTE: PROCEDURE SORT used (Total process time):
+      real time           0.01 seconds
+      cpu time            0.00 seconds
+      
+
+130        
+131        proc sort data=sashelp.classfit out=classfit_sorted;
+132          by name;
+133        run;
+
+NOTE: There were 19 observations read from the data set SASHELP.CLASSFIT.
+NOTE: The data set WORK.CLASSFIT_SORTED has 19 observations and 10 variables.
+NOTE: PROCEDURE SORT used (Total process time):
+      real time           0.01 seconds
+      cpu time            0.00 seconds
+      
+
+134        
+135        data class_join;
+136          merge class_sorted (in=c) classfit_sorted (in=cf);
+137            by name;
+138            if c and cf;
+139        run;
+
+NOTE: There were 19 observations read from the data set WORK.CLASS_SORTED.
+NOTE: There were 19 observations read from the data set WORK.CLASSFIT_SORTED.
+NOTE: The data set WORK.CLASS_JOIN has 19 observations and 10 variables.
+NOTE: DATA statement used (Total process time):
+      real time           0.01 seconds
+      cpu time            0.01 seconds
+      
+
+140        
+141        proc print data=class_join;
+142          var name age sex height weight predict lower upper;
+143        run;
+6                                         The SAS System         Monday, March 20, 2023 12:17:09 PM
+
+
+
+Output Added:
+-------------
+Name:       Print
+Label:      Data Set WORK.CLASS_JOIN
+Data Name:  ProcPrintTable
+Path:       Print.Print
+-------------
+NOTE: There were 19 observations read from the data set WORK.CLASS_JOIN.
+NOTE: PROCEDURE PRINT used (Total process time):
+      real time           0.04 seconds
+      cpu time            0.01 seconds
+      
+
+144        
+145        
+146        /* USE PROC SQL TO CREATE A QUERY TO JOIN TWO TABLES */
+147        proc sql;
+148          create table sql_join as
+149            select c.*, cf.predict, cf.lower, cf.upper
+150            from sashelp.class c, sashelp.classfit cf
+151            where c.name=cf.name;
+NOTE: Table WORK.SQL_JOIN created, with 19 rows and 8 columns.
+
+152        quit;
+NOTE: PROCEDURE SQL used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.01 seconds
+      
+
+153        
+154        proc print data=sql_join;
+155        run;
+
+
+Output Added:
+-------------
+Name:       Print
+Label:      Data Set WORK.SQL_JOIN
+Data Name:  ProcPrintTable
+Path:       Print.Print
+-------------
+NOTE: There were 19 observations read from the data set WORK.SQL_JOIN.
+NOTE: PROCEDURE PRINT used (Total process time):
+      real time           0.03 seconds
+      cpu time            0.03 seconds
+      
+
+156        
+157        
+158        /* PROC FREQ - THIS CODE WAS GENERATED FROM TABLE ANALYSIS TASK */
+159        /* RUN ONE-WAY FREQUENCY TASK ON CARS,ORIGIN */
+7                                         The SAS System         Monday, March 20, 2023 12:17:09 PM
+
+160        /* RUN TABLE ANALYSIS TASK TO GENERATE THIS CODE */
+161        
+162        ods noproctitle;
+163        
+164        proc freq data=SASHELP.CARS;
+165        	tables  (Origin) *(Type) / chisq expected nopercent norow nocol cellchi2
+166        		plots(only)=(freqplot mosaicplot);
+167        run;
+
+
+Output Added:
+-------------
+Name:       CrossTabFreqs
+Label:      Cross-Tabular Freq Table
+Template:   Base.Freq.CrossTabFreqs
+Path:       Freq.Table1.CrossTabFreqs
+-------------
+
+Output Added:
+-------------
+Name:       FreqPlot
+Label:      Frequency Plot
+Template:   Base.Freq.Graphics.VGroupFreqChart
+Path:       Freq.Table1.FreqPlot
+-------------
+
+Output Added:
+-------------
+Name:       MosaicPlot
+Label:      Mosaic Plot
+Template:   Base.Freq.Graphics.MosaicPlot
+Path:       Freq.Table1.MosaicPlot
+-------------
+
+Output Added:
+-------------
+Name:       ChiSq
+Label:      Chi-Square Tests
+Template:   Base.Freq.ChiSq
+Path:       Freq.Table1.ChiSq
+-------------
+NOTE: There were 428 observations read from the data set SASHELP.CARS.
+NOTE: PROCEDURE FREQ used (Total process time):
+      real time           12.71 seconds
+      cpu time            0.46 seconds
+      
+
+168        
+169        
+170        /* CODE GENERATED FROM SUMMARY STATISTICS TASK */
+171        ods noproctitle;
+172        ods graphics / imagemap=on;
+173        
+8                                         The SAS System         Monday, March 20, 2023 12:17:09 PM
+
+174        proc means data=SASHELP.CARS chartype mean std min max n vardef=df;
+175        	var Invoice MSRP MPG_Highway Weight;
+176        	class Origin;
+177        	output out=work.cars_stats mean=std=min=max=n= / autoname;
+178        run;
+
+
+Output Added:
+-------------
+Name:       Summary
+Label:      Summary statistics
+Template:   base.summary
+Path:       Means.Summary
+-------------
+NOTE: There were 428 observations read from the data set SASHELP.CARS.
+NOTE: The data set WORK.CARS_STATS has 4 observations and 23 variables.
+NOTE: PROCEDURE MEANS used (Total process time):
+      real time           0.07 seconds
+      cpu time            0.07 seconds
+      
+
+179        
+180        proc univariate data=SASHELP.CARS vardef=df noprint;
+181        	var Invoice MSRP MPG_Highway Weight;
+182        	class Origin;
+183        	histogram Invoice MSRP MPG_Highway Weight / normal(noprint);
+184        run;
+
+
+Output Added:
+-------------
+Name:       Histogram
+Label:      Panel 1
+Template:   base.univariate.Graphics.CompHistogram
+Path:       Univariate.Invoice.Histogram.Histogram
+-------------
+NOTE: HTML data tips have been disabled for at least one plot because the threshold has been 
+      reached. You can set TIPMAX=700 in the ODS GRAPHICS statement to produce data tips for all 
+      plots.
+
+Output Added:
+-------------
+Name:       Histogram
+Label:      Panel 2
+Template:   base.univariate.Graphics.CompHistogram
+Path:       Univariate.Invoice.Histogram.Histogram
+-------------
+NOTE: HTML data tips have been disabled for at least one plot because the threshold has been 
+      reached. You can set TIPMAX=700 in the ODS GRAPHICS statement to produce data tips for all 
+      plots.
+
+Output Added:
+-------------
+9                                         The SAS System         Monday, March 20, 2023 12:17:09 PM
+
+Name:       Histogram
+Label:      Panel 1
+Template:   base.univariate.Graphics.CompHistogram
+Path:       Univariate.MSRP.Histogram.Histogram
+-------------
+NOTE: HTML data tips have been disabled for at least one plot because the threshold has been 
+      reached. You can set TIPMAX=700 in the ODS GRAPHICS statement to produce data tips for all 
+      plots.
+
+Output Added:
+-------------
+Name:       Histogram
+Label:      Panel 2
+Template:   base.univariate.Graphics.CompHistogram
+Path:       Univariate.MSRP.Histogram.Histogram
+-------------
+NOTE: HTML data tips have been disabled for at least one plot because the threshold has been 
+      reached. You can set TIPMAX=700 in the ODS GRAPHICS statement to produce data tips for all 
+      plots.
+
+Output Added:
+-------------
+Name:       Histogram
+Label:      Panel 1
+Template:   base.univariate.Graphics.CompHistogram
+Path:       Univariate.MPG_Highway.Histogram.Histogram
+-------------
+NOTE: HTML data tips have been disabled for at least one plot because the threshold has been 
+      reached. You can set TIPMAX=700 in the ODS GRAPHICS statement to produce data tips for all 
+      plots.
+
+Output Added:
+-------------
+Name:       Histogram
+Label:      Panel 2
+Template:   base.univariate.Graphics.CompHistogram
+Path:       Univariate.MPG_Highway.Histogram.Histogram
+-------------
+NOTE: HTML data tips have been disabled for at least one plot because the threshold has been 
+      reached. You can set TIPMAX=700 in the ODS GRAPHICS statement to produce data tips for all 
+      plots.
+
+Output Added:
+-------------
+Name:       Histogram
+Label:      Panel 1
+Template:   base.univariate.Graphics.CompHistogram
+Path:       Univariate.Weight.Histogram.Histogram
+-------------
+NOTE: HTML data tips have been disabled for at least one plot because the threshold has been 
+      reached. You can set TIPMAX=700 in the ODS GRAPHICS statement to produce data tips for all 
+      plots.
+
+10                                        The SAS System         Monday, March 20, 2023 12:17:09 PM
+
+Output Added:
+-------------
+Name:       Histogram
+Label:      Panel 2
+Template:   base.univariate.Graphics.CompHistogram
+Path:       Univariate.Weight.Histogram.Histogram
+-------------
+NOTE: HTML data tips have been disabled for at least one plot because the threshold has been 
+      reached. You can set TIPMAX=700 in the ODS GRAPHICS statement to produce data tips for all 
+      plots.
+NOTE: PROCEDURE UNIVARIATE used (Total process time):
+      real time           5.39 seconds
+      cpu time            2.37 seconds
+      
+
+185        
+186        proc sort data=SASHELP.CARS out=WORK.TempSorted2236;
+187        	by Origin;
+188        run;
+
+NOTE: There were 428 observations read from the data set SASHELP.CARS.
+NOTE: The data set WORK.TEMPSORTED2236 has 428 observations and 15 variables.
+NOTE: PROCEDURE SORT used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.01 seconds
+      
+
+189        
+190        proc boxplot data=WORK.TempSorted2236;
+WARNING: The SAS/STAT product with which BOXPLOT is associated will be expiring soon, and is 
+         currently in warning mode to indicate this upcoming expiration. Please run PROC SETINIT 
+         to obtain more information on your warning period.
+191        	plot (Invoice MSRP MPG_Highway Weight)*Origin / boxstyle=schematic;
+192        run;
+
+WARNING: The SAS/GRAPH product with which the procedure is associated will be expiring soon, and 
+         is currently in warning mode to indicate this upcoming expiration. Please run PROC 
+         SETINIT to obtain more information on your warning period.
+NOTE: Processing beginning for PLOT statement number 1.
+
+Output Added:
+-------------
+Name:       Boxplot
+Label:      Panel 1
+Template:   Stat.Boxplot.Graphics.BoxPlot
+Path:       Boxplot.Invoice.Boxplot
+-------------
+
+Output Added:
+-------------
+Name:       Boxplot
+Label:      Panel 1
+Template:   Stat.Boxplot.Graphics.BoxPlot
+11                                        The SAS System         Monday, March 20, 2023 12:17:09 PM
+
+Path:       Boxplot.MSRP.Boxplot
+-------------
+
+Output Added:
+-------------
+Name:       Boxplot
+Label:      Panel 1
+Template:   Stat.Boxplot.Graphics.BoxPlot
+Path:       Boxplot.MPG_Highway.Boxplot
+-------------
+
+Output Added:
+-------------
+Name:       Boxplot
+Label:      Panel 1
+Template:   Stat.Boxplot.Graphics.BoxPlot
+Path:       Boxplot.Weight.Boxplot
+-------------
+NOTE: There were 428 observations read from the data set WORK.TEMPSORTED2236.
+NOTE: PROCEDURE BOXPLOT used (Total process time):
+      real time           2.16 seconds
+      cpu time            1.03 seconds
+      
+
+193        
+194        proc datasets library=WORK noprint;
+195        	delete TempSorted2236;
+196        	run;
+
+NOTE: Deleting WORK.TEMPSORTED2236 (memtype=DATA).
+197        
+198        
+199        /* EXPORT SUMMARY STATISTICS */
+
+NOTE: PROCEDURE DATASETS used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.01 seconds
+      
+
+200        proc export data=work.cars_stats
+201                    dbms=xlsx
+202                    OUTfile="/home/sasdemo/WTW_Demo_Repo/data/cars_stats.xlsx"
+203                    replace;
+204        run;
+
+ERROR: Temporary file for XLSX file can not be created -> 
+C:\home\sasdemo\WTW_Demo_Repo\data\cars_stats.$$1.  Make sure the path name is correct and that 
+you have write permission.
+
+NOTE: The SAS System stopped processing this step because of errors.
+NOTE: PROCEDURE EXPORT used (Total process time):
+      real time           0.01 seconds
+      cpu time            0.00 seconds
+12                                        The SAS System         Monday, March 20, 2023 12:17:09 PM
+
+      
+205        
+206        
+207        /* SNIPPET - HISTOGRAM PLOT */
+208        title 'Distribution of Mileage';
+
+
+209        proc sgplot data=sashelp.cars(where=(type ne 'Hybrid'));
+210          histogram mpg_city;
+211          density mpg_city / lineattrs=(pattern=solid);
+212          density mpg_city / type=kernel lineattrs=(pattern=solid);
+213          keylegend / location=inside position=topright across=1;
+214          yaxis offsetmin=0 grid;
+215        run;
+
+NOTE: PROCEDURE SGPLOT used (Total process time):
+      real time           0.29 seconds
+      cpu time            0.09 seconds
+      
+
+Output Added:
+-------------
+Name:       SGPlot
+Label:      The SGPlot Procedure
+Path:       SGPlot.SGPlot
+-------------
+NOTE: There were 425 observations read from the data set SASHELP.CARS.
+      WHERE type not = 'Hybrid';
+
+216        
+217        
+218        OPTIONS NOSYNTAXCHECK;
+219        &GRAPHTERM; ;*';*";*/;RUN;QUIT;
+220        ODS HTML5 (ID=WEB) CLOSE;
+221        
